@@ -1,6 +1,0 @@
-{
-  "namespace": "com.example",
-  "type": "record",
-  "name": "UserKey",
-  "fields": [{ "name": "user_id", "type": "string", "default": "unknown" }]
-}
