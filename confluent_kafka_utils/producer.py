@@ -8,8 +8,8 @@ from confluent_kafka_utils.config import settings
 bootstrap_servers = settings.bootstrap_servers
 schema_registry_url = settings.schema_registry_url
 topic = settings.topic
-key_avsc_path = settings.key_avsc_path
-value_avsc_path = settings.value_avsc_path
+# key_avsc_path = settings.key_avsc_path
+# value_avsc_path = settings.value_avsc_path
 
 _producer = None
 

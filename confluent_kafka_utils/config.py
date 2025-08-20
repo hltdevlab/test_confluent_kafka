@@ -24,8 +24,8 @@ class Settings(BaseSettings):
     topic: str = Field(None, env="TOPIC")
     group_id: Optional[str] = Field(None, env="GROUP_ID")
     # use_schema_registry: bool = Field(False, env="USE_SCHEMA_REGISTRY")
-    key_avsc_path: Optional[str] = Field(None, env="KEY_AVSC_PATH")
-    value_avsc_path: Optional[str] = Field(None, env="VALUE_AVSC_PATH")
+    key_avsc_paths: Optional[list] = Field(None)
+    value_avsc_paths: Optional[list] = Field(None)
 
     class Config:
         # values are loaded from env first; we will merge yaml defaults below
@@ -48,13 +48,13 @@ class Settings(BaseSettings):
     def set_group_id_from_yaml(cls, v):
         return v or _yaml_config.get("group_id")
 
-    @validator("key_avsc_path", pre=True, always=True)
-    def set_key_avsc_path_from_yaml(cls, v):
-        return v or _yaml_config.get("key_avsc_path")
+    @validator("key_avsc_paths", pre=True, always=True)
+    def set_key_avsc_paths_from_yaml(cls, v):
+        return v or _yaml_config.get("key_avsc_paths", [])
 
-    @validator("value_avsc_path", pre=True, always=True)
-    def set_value_avsc_path_from_yaml(cls, v):
-        return v or _yaml_config.get("value_avsc_path")
+    @validator("value_avsc_paths", pre=True, always=True)
+    def set_value_avsc_paths_from_yaml(cls, v):
+        return v or _yaml_config.get("value_avsc_paths", [])
 
 # single shared settings instance
 settings = Settings()

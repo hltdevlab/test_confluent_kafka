@@ -28,9 +28,12 @@ close_producer()
 
 
 try:
-    for i in range(2000000):
+    for i in range(1):
         key = {"user_id": f"uid{i}"}
-        value = {"name": f"u{i}", "age": i, "email": None}
+        value = {"name": f"u{i}", "age": i, "email": None, "country": {
+            "name": "Singapore",
+            "continent": "Asia"
+        }}
         send_1(settings.topic, key, value)
 
 except Exception as e:

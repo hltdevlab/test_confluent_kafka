@@ -3,5 +3,8 @@ schema_registry_url: "http://localhost:8081"
 topic: "topic1"
 group_id: "my-group"
 # use_schema_registry: true
-key_avsc_path: "confluent_kafka_utils/schemas/UserKey.avsc"
-value_avsc_path: "confluent_kafka_utils/schemas/User.avsc"
+key_avsc_paths:
+  - "confluent_kafka_utils/schemas/UserKey.avsc"
+value_avsc_paths:
+  - "confluent_kafka_utils/schemas/Country.avsc"
+  - "confluent_kafka_utils/schemas/UserValue.avsc"

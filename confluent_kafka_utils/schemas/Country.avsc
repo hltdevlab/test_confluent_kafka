@@ -1,0 +1,9 @@
+{
+  "namespace": "com.example",
+  "type": "record",
+  "name": "Country",
+  "fields": [
+    { "name": "name", "type": "string" },
+    { "name": "continent", "type": ["null", "string"], "default": null }
+  ]
+}
