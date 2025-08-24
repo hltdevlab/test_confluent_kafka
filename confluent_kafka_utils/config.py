@@ -21,11 +21,12 @@ class Settings(BaseSettings):
     # bootstrap_servers: str = Field(..., env="BOOTSTRAP_SERVERS")
     bootstrap_servers: str = Field(None, env="BOOTSTRAP_SERVERS")
     schema_registry_url: Optional[str] = Field(None, env="SCHEMA_REGISTRY_URL")
-    topic: str = Field(None, env="TOPIC")
+    # topic: str = Field(None, env="TOPIC")
     group_id: Optional[str] = Field(None, env="GROUP_ID")
     # use_schema_registry: bool = Field(False, env="USE_SCHEMA_REGISTRY")
     key_avsc_paths: Optional[list] = Field(None)
     value_avsc_paths: Optional[list] = Field(None)
+    topics: Optional[dict] = Field(None)
 
     class Config:
         # values are loaded from env first; we will merge yaml defaults below
@@ -40,9 +41,9 @@ class Settings(BaseSettings):
     def set_sr_from_yaml(cls, v):
         return v or _yaml_config.get("schema_registry_url")
 
-    @validator("topic", pre=True, always=True)
-    def set_topic_from_yaml(cls, v):
-        return v or _yaml_config.get("topic")
+    # @validator("topic", pre=True, always=True)
+    # def set_topic_from_yaml(cls, v):
+    #     return v or _yaml_config.get("topic")
 
     @validator("group_id", pre=True, always=True)
     def set_group_id_from_yaml(cls, v):
@@ -55,6 +56,10 @@ class Settings(BaseSettings):
     @validator("value_avsc_paths", pre=True, always=True)
     def set_value_avsc_paths_from_yaml(cls, v):
         return v or _yaml_config.get("value_avsc_paths", [])
+
+    @validator("topics", pre=True, always=True)
+    def set_topics_from_yaml(cls, v):
+        return v or _yaml_config.get("topics", {})
 
 # single shared settings instance
 settings = Settings()

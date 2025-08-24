@@ -7,7 +7,7 @@ from confluent_kafka_utils.config import settings
 
 bootstrap_servers = settings.bootstrap_servers
 schema_registry_url = settings.schema_registry_url
-topic = settings.topic
+# topic = settings.topic
 # key_avsc_path = settings.key_avsc_path
 # value_avsc_path = settings.value_avsc_path
 
@@ -55,12 +55,13 @@ def __delivery_report(err, msg):
         pass
 
 
-def send(topic, key, value, avro_serialization):
+def send(topic, key, value, avro_serialization, *args, **kwargs):
+    headers = kwargs.get("headers", None)
     # print("--- sending ---")
     producer = __get_producer()
     
-    serialized_key = avro_serialization.serialize_key(topic, key)
-    serialized_value = avro_serialization.serialize_value(topic, value)
+    serialized_key = avro_serialization.serialize_key(topic, key, headers=headers)
+    serialized_value = avro_serialization.serialize_value(topic, value, headers=headers)
 
     # print(f"serialized_key: {serialized_key}")
     # print(f"serialized_value: {serialized_value}")
@@ -71,10 +72,12 @@ def send(topic, key, value, avro_serialization):
         
         try:
             producer.produce(
+                *args,
+                **kwargs,
                 topic=topic,
                 key=serialized_key,
                 value=serialized_value,
-                callback=__delivery_report,
+                on_delivery=__delivery_report,
             )
             break
         except BufferError:

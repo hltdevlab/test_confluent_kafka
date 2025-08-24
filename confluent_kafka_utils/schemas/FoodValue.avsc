@@ -1,0 +1,9 @@
+{
+  "namespace": "com.example",
+  "type": "record",
+  "name": "FoodValue",
+  "fields": [
+    { "name": "name", "type": "string" },
+    { "name": "quantity", "type": ["int", "null"] }
+  ]
+}
